@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/md_black_1000_15"
+    tools:context=".RappelActivity"
+    >
+
+
+
+    <item android:id="@+id/affich_donnees"
+        android:title="afficher le programme linéaire"
+
+        />
+
+    <item android:id="@+id/affich_standard"
+        android:title="afficher la forme standard"
+
+       />
+
+    <item android:id="@+id/delete_donnees"
+        android:title="supprimer le programme linéaire"
+
+        />
+
+
+
+
+</menu>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:checked="true"
+            android:id="@+id/item_max_3v"
+            android:icon="@drawable/icone3vmax"
+            android:title="Maximisation à trois variables"
+            />
+
+        <item
+            android:id="@+id/item_max_2v"
+            android:icon="@drawable/icone2vmax"
+            android:title="Maximisation à deux variables" />
+        <item
+            android:id="@+id/item_min_3v"
+            android:icon="@drawable/icone3vmin"
+            android:title="Minimisation à trois variables" />
+
+        <item
+            android:id="@+id/item_rappel"
+            android:icon="@drawable/ic_action_content_send"
+            android:title="Rappel" />
+
+
+    </group>
+
+    <item android:title="Options">
+        <menu>
+            <item
+                android:id="@+id/item_parametres"
+                android:icon="@drawable/settings"
+                android:title="Paramètres" />
+            <item
+                android:id="@+id/item_apropos"
+                android:icon="@drawable/ic_action_content_report"
+                android:title="A propos" />
+        </menu>
+    </item>
+
+</menu>

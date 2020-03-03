@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"/>
+
+
+    <TextView
+        android:id="@+id/lab_identifiant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="identifiant :"
+        android:background="@color/md_grey_500_50"
+
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/identifiant1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="id"
+        android:background="@color/md_grey_500_50"
+        android:layout_toRightOf="@+id/lab_identifiant"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/lab_type_simplexe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/identifiant1"
+        android:layout_marginTop="16dp"
+        android:text="type du simplexe"
+        android:background="@color/md_orange_500_50"
+
+
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/type_simplexe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/identifiant1"
+        android:layout_toRightOf="@+id/lab_type_simplexe"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:text="type simplexe"
+        android:background="@color/md_orange_500_50"
+
+
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
+    <TextView
+        android:id="@+id/oo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/type_simplexe"
+
+        android:layout_marginTop="10dp"
+        android:text="Nombre de tableaux générés :"
+        android:background="@color/md_orange_500_50"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/nb_tb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/type_simplexe"
+        android:layout_toRightOf="@+id/oo"
+        android:layout_marginTop="10dp"
+
+        android:text=""
+        android:background="@color/md_orange_500_50"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        />
+
+
+
+
+</RelativeLayout>
