@@ -227,22 +227,19 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 
     }
 
-    public String insertProgLineaire(ProgrameLineaire programeLineaire,String type) {
+    public String insertProgLineaire(ProgrameLineaire programeLineaire, String type) {
         List<ColonneTableau> p = programeLineaire.getColList();
         SQLiteDatabase db = this.getWritableDatabase();
         // Les valeurs à inserer
         ContentValues valeur = new ContentValues();
         //Ajout de l id
         String id = genId("PL");
-        valeur.put("i"+0, id);
-        int i = 1;
+        valeur.put("id", id);
         for (ColonneTableau n : p) {
             valeur.put(n.getPositionValue(), n.getValue());
-            i++;
         }
-        //Ajout du type
+
         valeur.put("type_simplexe", type);
-        //Ajout du nombre de tableaux
         valeur.put("nb_tableau", programeLineaire.getNb_tableau());
 
         // insertion
@@ -258,9 +255,11 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
         //Ajout de l id
         valeur.put("id", genId("PL"));
         for (ColonneTableau n : tab.getColonnes()) {
-            valeur.put(n.getPositionValue(), n.getValue());
-        }
+            if (n.isCalculated()) {
+                valeur.put(n.getPositionValue().toLowerCase(), n.getValue());
+            }
 
+        }
 
         //Ajout des autres elements
         valeur.put("pivot", tab.getPosition_pivot());
@@ -270,6 +269,7 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
         valeur.put("min", tab.getMin());
         valeur.put("isLast", tab.isLast());
         valeur.put("programme_lineaireId", programme_lineaireId);
+
         // insertion
         db.insert(TABLEAU, null, valeur);
         db.close();
@@ -297,8 +297,6 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 
         // fermeture de la base
         db.close();
-
-
     }
 
 
@@ -308,7 +306,6 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
         db.execSQL(requete);
         // fermeture de la base
         db.close();
-
     }
 
     public void DeleteSQL(String requete) {
@@ -317,7 +314,6 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
         db.execSQL(requete);
         // fermeture de la base
         db.close();
-
     }
 
 

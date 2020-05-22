@@ -23,7 +23,6 @@ import com.example.simplexe20.model.ProgrameLineaire;
 import com.example.simplexe20.model.SimplexeType;
 import com.example.simplexe20.model.SimplexeV2;
 import com.example.simplexe20.model.TableauList;
-import com.example.simplexe20.model.TableauV2;
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -187,28 +186,8 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Veillez remplir les champs SVP", Toast.LENGTH_LONG).show();
         } else {
-            procederAuCalcul();
+            calculerSimplexeV2();
         }
-    }
-
-    public void procederAuCalcul() {
-        System.out.println("e1x1= " + txt_e1x1.getText());
-        System.out.println("e1x2= " + txt_e1x2.getText());
-        System.out.println("e1x3= " + txt_e1x3.getText());
-        System.out.println("e2x1= " + txt_e2x1.getText());
-        System.out.println("e2x2= " + txt_e2x2.getText());
-        System.out.println("e2x3= " + txt_e2x3.getText());
-        System.out.println("e3x1= " + txt_e3x1.getText());
-        System.out.println("e3x2= " + txt_e3x2.getText());
-        System.out.println("e3x3= " + txt_e3x3.getText());
-        System.out.println("zx1= " + txt_zx1.getText());
-        System.out.println("zx2= " + txt_zx2.getText());
-        System.out.println("zx3= " + txt_zx3.getText());
-        System.out.println("be1= " + txt_be1.getText());
-        System.out.println("be2= " + txt_be2.getText());
-        System.out.println("be3= " + txt_be3.getText());
-
-        calculerSimplexeV2();
     }
 
 
@@ -256,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Enregistrement dans la base de donnees
                 id_enreg = db.insertProgLineaire(programeLineaire, SimplexeType.MAXI_TROIS_VARIABLES.toString());
-                db.insertAllTableau(this.tableauList,id_enreg);
+                db.insertAllTableau(this.tableauList, id_enreg);
                 //Redirection vers les resultats
                 AlertDialog.Builder al = new AlertDialog.Builder(CONTEXT);
                 al.setTitle("Enregistrement");
