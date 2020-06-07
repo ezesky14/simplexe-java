@@ -3,12 +3,12 @@
 
     <style name="AppTheme" parent="Base.AppTheme">
 
-        <item name="colorPrimaryDark">@color/md_orange_A700</item>
+        <item name="colorPrimaryDark">@color/md_blue_500</item>
     </style>
 
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/md_cyan_300</item>
-        <item name="colorPrimaryDark">@color/md_orange_A700</item>
+        <item name="colorPrimaryDark">@color/md_blue_500</item>
         <item name="colorAccent">@color/md_blue_300</item>
         <item name="colorControlHighlight">@color/md_blue_grey_50</item>
         <item name="android:windowBackground">@color/md_white_1000</item>

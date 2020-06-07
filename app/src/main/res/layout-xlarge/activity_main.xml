@@ -40,7 +40,6 @@
 
 
         <RelativeLayout
-            android:id="@+id/layout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -139,7 +138,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/text_1"
-                android:id="@+id/x3_"
                 android:layout_width="@dimen/longueur_label"
                 android:layout_height="@dimen/largeur_label"
                 android:gravity="center"
@@ -468,7 +466,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:background="@color/md_amber_500_25"
-                android:onClick="Valider_3v"
+                android:onClick="Valider3vMax"
 
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"

@@ -13,11 +13,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.simplexe20.model.DataBaseWrapper;
 import com.example.simplexe20.model_v1.Donnees3v;
 
-public class AffichProgActivity extends AppCompatActivity {
+public class AffichFormStandActivity extends AppCompatActivity {
     Toolbar toolbar;
     final DataBaseWrapper db = new DataBaseWrapper(this);
     String id_enreg;
-
     TextView ligne1;
     TextView ligne2;
     TextView ligne3;
@@ -30,17 +29,17 @@ public class AffichProgActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_affich_prog);
-        setTitle("Programme lineaire S/F canonique");
+        setContentView(R.layout.activity_affich__form_stand);
+        setTitle("Forme standard du DUAL");
+
         Intent intent = getIntent();
         id_enreg = intent.getStringExtra("id");
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedValue typedValueColorPrimaryDark = new TypedValue();
-        AffichProgActivity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
+        AffichFormStandActivity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
         final int colorPrimaryDark = typedValueColorPrimaryDark.data;
 
         if (Build.VERSION.SDK_INT >= 21) {
@@ -58,6 +57,7 @@ public class AffichProgActivity extends AppCompatActivity {
         ecrireProgLineaire();
     }
 
+
     private void ecrireProgLineaire() {
         Donnees3v d = db.getProgramLineaire(String.valueOf(id_enreg));
         ident.setText("" + d.getId());
@@ -66,32 +66,32 @@ public class AffichProgActivity extends AppCompatActivity {
         switch (d.getTYPE_SIMPLEXE()) {
             case "MAXI_TROIS_VARIABLES":
                 type_simplexe.setText("de type maximisation à trois variables");
-                ligne1.setText("max Z = " + d.getZX1() + " x1 + " + d.getZX2() + " x2 +" + d.getZX3() + "x3 ");
-                ligne2.setText("(x1,x2,x3)>=0");
-                ligne3.setText(d.getE1X1() + " x1 + " + d.getE1X2() + " x2 + " + d.getE1X3() + "x3 <=" + d.getBE1());
-                ligne4.setText(d.getE2X1() + " x1 + " + d.getE2X2() + " x2 + " + d.getE2X3() + "x3 <=" + d.getBE2());
-                ligne5.setText(d.getE3X1() + " x1 + " + d.getE3X2() + " x2 + " + d.getE3X3() + "x3 <=" + d.getBE3());
+                ligne1.setText("(x1,x2,x3,e1,e2,e3) >=0");
+                ligne2.setText(d.getE1X1() + " x1 + " + d.getE1X2() + " x2 + " + d.getE1X3() + "x3 + 1e1 + 0e2 + 0e3 = " + d.getBE1());
+                ligne3.setText(d.getE2X1() + " x1 + " + d.getE2X2() + " x2 + " + d.getE2X3() + "x3 + 0e1 + 1e2 + 0e3 = " + d.getBE2());
+                ligne4.setText(d.getE3X1() + " x1 + " + d.getE3X2() + " x2 + " + d.getE3X3() + "x3 + 0e1 + 0e2 + 1e3 = " + d.getBE3());
+                ligne5.setText("max Z = " + d.getZX1() + " x1 + " + d.getZX2() + " x2 +" + d.getZX3() + "x3 +0e1 + 0e2 + 0e3");
+
                 break;
             case "MAXI_DEUX_VARIABLES":
                 type_simplexe.setText("de type maximisation à deux variables");
-
-                ligne1.setText("max Z = " + d.getZX1() + " x1 + " + d.getZX2() + " x2 ");
-                ligne2.setText("(x1,x2)>=0");
-                ligne3.setText(d.getE1X1() + " x1 + " + d.getE1X2() + " x2  <= " + d.getBE1());
-                ligne4.setText(d.getE2X1() + " x1 + " + d.getE2X2() + " x2  <= " + d.getBE2());
-                ligne5.setText(d.getE3X1() + " x1 + " + d.getE3X2() + " x2  <= " + d.getBE3());
+                ligne1.setText("(x1,x2,x3,e1,e2,e3) >=0");
+                ligne2.setText(d.getE1X1() + " x1 + " + d.getE1X2() + " x2 + 1e1 + 0e2 + 0e3 = " + d.getBE1());
+                ligne3.setText(d.getE2X1() + " x1 + " + d.getE2X2() + " x2 + 0e1 + 1e2 + 0e3 = " + d.getBE2());
+                ligne4.setText(d.getE3X1() + " x1 + " + d.getE3X2() + " x2 + 0e1 + 0e2 + 1e3 = " + d.getBE3());
+                ligne5.setText("max Z = " + d.getZX1() + " x1 + " + d.getZX2() + " x2 +" + d.getZX3() + " 0e1 + 0e2 + 0e3");
                 break;
 
             case "MINI_TROIS_VARIABLES":
                 type_simplexe.setText("de type minimisation à trois variables");
-                ligne1.setText("min Z = " + d.getZX1() + " x1 + " + d.getZX2() + " x2 +" + d.getZX3() + "x3 ");
-                ligne2.setText("(x1,x2,x3)>=0");
-                ligne3.setText(d.getE1X1() + " x1 + " + d.getE1X2() + " x2 + " + d.getE1X3() + "x3 >=" + d.getBE1());
-                ligne4.setText(d.getE2X1() + " x1 + " + d.getE2X2() + " x2 + " + d.getE2X3() + "x3 >=" + d.getBE2());
-                ligne5.setText(d.getE3X1() + " x1 + " + d.getE3X2() + " x2 + " + d.getE3X3() + "x3 >=" + d.getBE3());
+                ligne1.setText("(x1,x2,x3,e1,e2,e3) >=0");
+                ligne2.setText(d.getE1X1() + " x1 + " + d.getE2X1() + " x2 + " + d.getE3X1() + "x3 + 1e1 + 0e2 + 0e3 = " + d.getZX1());
+                ligne3.setText(d.getE1X2() + " x1 + " + d.getE2X2() + " x2 + " + d.getE3X2() + "x3 + 0e1 + 1e2 + 0e3 = " + d.getZX2());
+                ligne4.setText(d.getE1X3() + " x1 + " + d.getE2X3() + " x2 + " + d.getE3X3() + "x3 + 0e1 + 0e2 + 1e3 = " + d.getZX3());
+                ligne5.setText("max Z' = " + d.getBE1() + " x1 + " + d.getBE2() + " x2 +" + d.getBE3() + "x3 +0e1 + 0e2 + 0e3");
                 break;
         }
-}
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

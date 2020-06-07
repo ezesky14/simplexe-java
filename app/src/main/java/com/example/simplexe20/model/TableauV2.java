@@ -1,18 +1,93 @@
 package com.example.simplexe20.model;
 
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TableauV2 implements Parcelable {
+public class TableauV2 {
     private String id;
+    private float min;
+    private float max;
+    private float pivot;
+    private String positionPivot;
+    private String positionVEntrante;
+    private ColonneTableau colvEntrante;
+    private ColonneTableau colvSortante;
+    private ArrayList<ColonneTableau> colonnes;
+    private String positionVSortante;
+    private boolean isLast = false;
+    private List<ColonneTableau> pivotColonnes;
+    private String programmeLineaireId;
+    private int realPosZ;
+    private String indice;
+    private String[] vhbLabels;
+    private String[] vdbLabels;
+    private ColonneTableau colPivot;
+    private int roundNumber = -1;
+    private int numberTotalcolPerLine;
+
+    public TableauV2(ProgrameLineaire programeLineaire) {
+        this.roundNumber = programeLineaire.getRoundNumber();
+        this.numberTotalcolPerLine = programeLineaire.getColumnsNumberPerLine();
+        initLabels(numberTotalcolPerLine);
+        colonnes = initTableau(programeLineaire.getAllEquationValues());
+    }
+
+    public TableauV2(List<Float> data, int numberTotalcolPerLine) {
+        this.numberTotalcolPerLine = numberTotalcolPerLine;
+        initLabels(numberTotalcolPerLine);
+        colonnes = initTableau(data);
+    }
+
+    public String[] getVdbLabels() {
+        return vdbLabels;
+    }
+
+    public void setVdbLabels(String[] vdbLabels) {
+        this.vdbLabels = vdbLabels;
+    }
+
+
+    public ColonneTableau getColPivot() {
+        return colPivot;
+    }
+
+    public void setColPivot(ColonneTableau colPivot) {
+        this.colPivot = colPivot;
+    }
+
+    public String[] getVhbLabels() {
+        return vhbLabels;
+    }
+
+    public String getLabelsToString(String[] labels, String regex) {
+        StringBuilder res = new StringBuilder();
+        int i = 0;
+        for (String vhbLabel : labels) {
+            if (i < labels.length - 1) {
+                res.append(vhbLabel).append(regex);
+            } else {
+                res.append(vhbLabel);
+            }
+
+        }
+        return res.toString();
+    }
+
+    public void setVhbLabels(String[] vhbLabels) {
+        this.vhbLabels = vhbLabels;
+    }
+
+    private void initLabels(int numberTotalcolPerLine) {
+        String[] vdbLabels = {"e1", "e2", "e3"};
+        setVdbLabels(vdbLabels);
+        String[] vhbLabels = {"x1", "x2", "x3", ".", ".", "."};
+        if (numberTotalcolPerLine == 7) {
+            vhbLabels = new String[]{"x1", "x2", ".", ".", "."};
+        }
+        setVhbLabels(vhbLabels);
+    }
 
     public String getId() {
         return id;
@@ -22,46 +97,29 @@ public class TableauV2 implements Parcelable {
         this.id = id;
     }
 
-    private float min;
-    private float max;
-    private float pivot;
-    private String position_pivot;
-    private String position_v_entrante;
-    private ColonneTableau ColvEntrante;
-    private ColonneTableau ColvSortante;
-
     public ColonneTableau getColvEntrante() {
-        return ColvEntrante;
+        return colvEntrante;
     }
 
     public void setColvEntrante(ColonneTableau colvEntrante) {
-        ColvEntrante = colvEntrante;
+        this.colvEntrante = colvEntrante;
     }
 
     public ColonneTableau getColvSortante() {
-        return ColvSortante;
+        return colvSortante;
     }
 
     public void setColvSortante(ColonneTableau colvSortante) {
-        ColvSortante = colvSortante;
+        this.colvSortante = colvSortante;
     }
 
-    private String position_v_sortante;
-    private boolean isLast = false;
-    private List<ColonneTableau> pivotColonnes;
-    private String programme_lineaireId;
-    public String getProgramme_lineaireId() {
-        return programme_lineaireId;
+    public String getProgrammeLineaireId() {
+        return programmeLineaireId;
     }
 
-    public void setProgramme_lineaireId(String programme_lineaireId) {
-        this.programme_lineaireId = programme_lineaireId;
+    public void setProgrammeLineaireId(String programmeLineaireId) {
+        this.programmeLineaireId = programmeLineaireId;
     }
-
-    int nb_negatif=0;
-    int nb_positif=0;
-    int realPosZ;
-    String indice;
 
     public int getNumberTotalcolPerLine() {
         return numberTotalcolPerLine;
@@ -71,7 +129,7 @@ public class TableauV2 implements Parcelable {
         this.numberTotalcolPerLine = numberTotalcolPerLine;
     }
 
-    private int numberTotalcolPerLine;
+
 
     public int getRealPosZ() {
         return realPosZ;
@@ -92,6 +150,7 @@ public class TableauV2 implements Parcelable {
     public List<ColonneTableau> getPivotColonnes() {
         return pivotColonnes;
     }
+
     public float[] getLignePivotValues() {
         return toFloat(pivotColonnes);
     }
@@ -108,7 +167,6 @@ public class TableauV2 implements Parcelable {
         this.colonnes = colonnes;
     }
 
-    ArrayList<ColonneTableau> colonnes;
 
     public float getMin() {
         return min;
@@ -134,28 +192,28 @@ public class TableauV2 implements Parcelable {
         this.pivot = pivot;
     }
 
-    public String getPosition_pivot() {
-        return position_pivot;
+    public String getPositionPivot() {
+        return positionPivot;
     }
 
-    public void setPosition_pivot(String position_pivot) {
-        this.position_pivot = position_pivot;
+    public void setPositionPivot(String positionPivot) {
+        this.positionPivot = positionPivot;
     }
 
-    public String getPosition_v_entrante() {
-        return position_v_entrante;
+    public String getPositionVEntrante() {
+        return positionVEntrante;
     }
 
-    public void setPosition_v_entrante(String position_v_entrante) {
-        this.position_v_entrante = position_v_entrante;
+    public void setPositionVEntrante(String positionVEntrante) {
+        this.positionVEntrante = positionVEntrante;
     }
 
-    public String getPosition_v_sortante() {
-        return position_v_sortante;
+    public String getPositionVSortante() {
+        return positionVSortante;
     }
 
-    public void setPosition_v_sortante(String position_v_sortante) {
-        this.position_v_sortante = position_v_sortante;
+    public void setPositionVSortante(String positionVSortante) {
+        this.positionVSortante = positionVSortante;
     }
 
     public boolean isLast() {
@@ -166,117 +224,101 @@ public class TableauV2 implements Parcelable {
         isLast = last;
     }
 
-    /*
-         e1,e2,e3,z
-         x1,x2,x3 ,point1, point2, point3 , B , R
-         */
-    public TableauV2() {
-        colonnes = initTableau();
-    }
-    public TableauV2(List<Float> data, int numberTotalcolPerLine) {
-        this.numberTotalcolPerLine = numberTotalcolPerLine;
-        colonnes = initTableau(data);
-    }
-
-    private Map<String,Integer> vdbList2() {
-        String[] res = {"e1","e2","e3","Z"};
+    /* e1, e2, e3, z
+       x1,x2,x3 ,point1, point2, point3 , B , R
+     */
+    private Map<String, Integer> vdbList2() {
+        String[] res = {"e1", "e2", "e3", "Z"};
         return convertToMap(res);
     }
-    private  Map<String,Integer> convertToMap(String[] list){
+
+    private Map<String, Integer> vhbList2() {
+        String[] res = {"x1", "x2", "x3", "p1", "p2", "p3", "B", "R"};
+        return convertToMap(res);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Integer> convertToMap(String[] list) {
         Map<String, Integer> myMap = new HashMap();
-        int a =0;
-        for (String l: list){
+        int a = 0;
+        for (String l : list) {
             myMap.put(l, a);
             a++;
         }
         return myMap;
     }
 
-    private Map<String,Integer> vhbList2() {
-        String[] res = {"x1","x2","x3","p1","p2","p3","B","R"};
-        return convertToMap(res);
-    }
-
     private String[] vdbList() {
-        String[] res = {"e1","e2","e3","Z"};
-        return res;
+        return new String[]{"e1", "e2", "e3", "Z"};
     }
 
     private String[] vhbList() {
-        String[] res = {"x1","x2","x3","p1","p2","p" +
-                "" +
-                "3","B","R"};
+        String[] res = {"x1", "x2", "x3", "p1", "p2", "p3", "B", "R"};
+
+        if (numberTotalcolPerLine == 7) {
+            res = new String[]{"x1", "x2", "p1", "p2", "p3", "B", "R"};
+        }
         return res;
     }
 
-   public ColonneTableau addColumn(KeyVal vhbKeyVal, KeyVal vdbKeyVal, int id) {
-       ColonneTableau col = new ColonneTableau();
-       col.setId(id);
-       col.setVhbPosition(vhbKeyVal.getKey());
-       col.setVhbValue(vhbKeyVal.getValue());
-       col.setVdbPosition(vdbKeyVal.getKey());
-       col.setVdbValue(vdbKeyVal.getValue());
-       col.setPositionValue(vdbKeyVal.getValue()+""+vhbKeyVal.getValue());
-       col.setCalculated(true);
-
-       return col;
-   }
-
-    public ColonneTableau addColumnWithData(KeyVal vhbKeyVal, KeyVal vdbKeyVal, int id, float data) {
-        ColonneTableau col = new ColonneTableau();
+    public ColonneTableau addColumn(KeyVal vhbKeyVal, KeyVal vdbKeyVal, int id) {
+        ColonneTableau col = new ColonneTableau(roundNumber);
         col.setId(id);
         col.setVhbPosition(vhbKeyVal.getKey());
         col.setVhbValue(vhbKeyVal.getValue());
         col.setVdbPosition(vdbKeyVal.getKey());
         col.setVdbValue(vdbKeyVal.getValue());
-        col.setPositionValue(vdbKeyVal.getValue()+""+vhbKeyVal.getValue());
+        col.setPositionValue(vdbKeyVal.getValue() + "" + vhbKeyVal.getValue());
         col.setCalculated(true);
-        col.setValue(data);
-
         return col;
-
-    }
-    private ArrayList<ColonneTableau> getColumnsOfTable(){
-        //Map<String, Integer> vdbList = vdbList();
-        //Map<String, Integer> vhbList = vhbList();
-        ArrayList<ColonneTableau> list = new ArrayList<>();
-        int vdbPos = 0;
-        int vhbPos = 0;
-        int id = 0;
-        for (String vdb : vdbList()) {
-            vhbPos = 0;
-            for (String vhb : vhbList()) {
-                KeyVal vhbKeyVal = new KeyVal(vhbPos, vhb);
-                KeyVal vdbKeyVal = new KeyVal(vdbPos, vdb);
-                ColonneTableau col = SimplexeUtils.addColumn(vhbKeyVal, vdbKeyVal, id);
-                list.add(col);
-                vhbPos++;
-                id++;
-            }
-            vdbPos++;
-        }
-       return list;
     }
 
-    private ArrayList<ColonneTableau> getColumnsOfTable(List<Float> data){
-        //Map<String, Integer> vdbList = vdbList();
-        //Map<String, Integer> vhbList = vhbList();
+    public ColonneTableau addColumnWithData(KeyVal vhbKeyVal, KeyVal vdbKeyVal, int id, float data) {
+        ColonneTableau col = addColumn(vhbKeyVal, vdbKeyVal, id);
+        col.setValue(data);
+        return col;
+    }
+
+    private ArrayList<ColonneTableau> getColumnsOfTable() {
+        return getColumnsOfTable(null);
+    }
+
+    /**
+     * Base class for activities that use the
+     * <a href="{@docRoot}tools/extras/support-library.html">support library</a> action bar features.
+     *
+     * <p>You can add an {@link androidx.appcompat.app.ActionBar} to your activity when running on API level 7 or higher
+     * by extending this class for your activity and setting the activity theme to
+     * {@link androidx.appcompat.R.style#Theme_AppCompat Theme.AppCompat} or a similar theme.
+     *
+     * <div class="special reference">
+     * <h3>Developer Guides</h3>
+     *
+     * <p>For informatsion about how to use the action bar, including how to add action items, navigation
+     * modes and more, read the <a href="{@docRoot}guide/topics/ui/actionbar.html">Action
+     * Bar</a> API guide.</p>
+     * </div>
+     */
+    private ArrayList<ColonneTableau> getColumnsOfTable(List<Float> data) {
         ArrayList<ColonneTableau> list = new ArrayList<>();
         int vdbPos = 0;
-        int vhbPos = 0;
         int dataIndex = 0;
-        for (String vdb : vdbList()) {
-            vhbPos = 0;
-            for (String vhb : vhbList()) {
-                Log.i("getColumnsOfTable", dataIndex+"");
-                int id = dataIndex;
 
+        for (String vdb : vdbList()) {
+            int vhbPos = 0;
+            for (String vhb : vhbList()) {
+                ColonneTableau col;
+                int id = dataIndex;
                 KeyVal vhbKeyVal = new KeyVal(vhbPos, vhb);
                 KeyVal vdbKeyVal = new KeyVal(vdbPos, vdb);
 
-                Log.i("getColumnsOfTable vhb", vhb+"");
-                Log.i("getColumnsOfTable vdb", vdb+"");
-                ColonneTableau col = SimplexeUtils.addColumnWithData(vhbKeyVal, vdbKeyVal, id, data.get(dataIndex));
+
+                if (data != null) {
+                    col = addColumnWithData(vhbKeyVal, vdbKeyVal, id, data.get(dataIndex));
+                } else {
+                    col = addColumn(vhbKeyVal, vdbKeyVal, id);
+                }
+
                 list.add(col);
                 vhbPos++;
                 dataIndex++;
@@ -286,131 +328,95 @@ public class TableauV2 implements Parcelable {
         return list;
     }
 
-
-
-    private ArrayList <ColonneTableau> initTableau() {
-        ArrayList <ColonneTableau> tableList = getColumnsOfTable();
+    private ArrayList<ColonneTableau> initTableau() {
+        ArrayList<ColonneTableau> tableList = getColumnsOfTable();
         //La derniere colonne n'est pas calculable
-        tableList.get(tableList.size()-1).setCalculated(false);
-        return tableList;
-    }
-    public ArrayList <ColonneTableau> initTableau(List<Float> data) {
-       int i =0;
-       for (float v:data){
-           Log.w("index "+i,v+"");
-           i++;
-       }
-        ArrayList <ColonneTableau> tableList = getColumnsOfTable(data);
-        //La derniere colonne n'est pas calculable
-        tableList.get(tableList.size()-1).setCalculated(false);
+        tableList.get(tableList.size() - 1).setCalculated(false);
         return tableList;
     }
 
-    public ColonneTableau getCol(int vdbPosition, int lignePosition) {
-        int res = ( numberTotalcolPerLine * (vdbPosition)) + lignePosition;
+    public ArrayList<ColonneTableau> initTableau(List<Float> data) {
+        ArrayList<ColonneTableau> tableList = getColumnsOfTable(data);
+        //La derniere colonne n'est pas calculable
+        tableList.get(tableList.size() - 1).setCalculated(false);
+        return tableList;
+    }
+
+    public ColonneTableau getCol(String vdbValue, int lignePosition) {
+        int vdbPosition = vdbList2().get(vdbValue);
+        int res = (numberTotalcolPerLine * (vdbPosition)) + lignePosition;
         return colonnes.get(res);
     }
 
-    public float getVal(String vdbValue, int lignePosition) {
-       /* on a e3  on souhaite retrouver la position vdb affectee a ca
-       *
-       *  */
-       int vdbPosition = vdbList2().get(vdbValue);
-       return getCol(vdbPosition, lignePosition).getValue();
+    public ColonneTableau getCol(int vdbPosition, int lignePosition) {
+        int res = (numberTotalcolPerLine * (vdbPosition)) + lignePosition;
+        return colonnes.get(res);
+    }
+
+    public float getValue(String vdbValue, int lignePosition) {
+        int vdbPosition = vdbList2().get(vdbValue);
+        return getCol(vdbPosition, lignePosition).getValue();
+    }
+
+    public ArrayList<ColonneTableau> getColonnes(Map<Integer, Integer> queries) {
+        ArrayList<ColonneTableau> colonnes = new ArrayList<>();
+        for (int vdbPosition : queries.keySet()) {
+            int lignePosition = queries.get(vdbPosition);
+            colonnes.add(getCol(vdbPosition, lignePosition));
+        }
+        return colonnes;
+
     }
 
     public List<ColonneTableau> getLine(String vdbValue) {
         // return tb_Z[0], tb_Z[1], tb_Z[2], tb_Z[3], tb_Z[4], tb_Z[5]
+        int index = numberTotalcolPerLine - 1;
         int vdbPosition = vdbList2().get(vdbValue);
-        int start = (7 * vdbPosition) + vdbPosition;
-        return colonnes.subList(start, start+7+1);
+        int start = (index * vdbPosition) + vdbPosition;
+        return colonnes.subList(start, start + index + 1);
     }
+
     public void setLine(List<ColonneTableau> list, String vdbValue) {
+        int index = numberTotalcolPerLine - 1;
         int vdbPosition = vdbList2().get(vdbValue);
-        int start =(7 * vdbPosition)  + vdbPosition;
-        Collection<ColonneTableau> c = colonnes.subList(start, start+7+1);
-        int b =0;
-        for (int a = start; a<=start+7;a++){
+        int start = (index * vdbPosition) + vdbPosition;
+        int b = 0;
+        for (int a = start; a <= start + index; a++) {
             colonnes.set(a, list.get(b));
             b++;
         }
-       // colonnes.removeAll(c);
-        //colonnes.addAll(start, list);
-    }
-    public float[] getLineValues(String vdbValue) {
-        int vdbPosition = vdbList2().get(vdbValue);
-        int start = (7 * vdbPosition) + vdbPosition;
-        return toFloat(colonnes.subList(start, start+7+1));
     }
 
-    public void verifTableau(){
-        nb_positif = 0;
-        for (int i=0;i<numberTotalcolPerLine;i++){
-            if (getVal("Z", i) > 0){
-                nb_positif++;
+    public float[] getLineValues(String vdbValue) {
+        int index = numberTotalcolPerLine - 1;
+        int vdbPosition = vdbList2().get(vdbValue);
+        int start = (index * vdbPosition) + vdbPosition;
+        return toFloat(colonnes.subList(start, start + index + 1));
+    }
+
+    public void verifyTable() {
+        int nbPositif = 0;
+        for (int i = 0; i < numberTotalcolPerLine; i++) {
+            float val = getValue("Z", i);
+            if (val > 0) {
+                nbPositif++;
             }
         }
-        isLast = false;
-        if (nb_positif == 0){
-            isLast = true;
-        }
+        isLast = (nbPositif == 0);
     }
 
-    private float[] toFloat (List<ColonneTableau> list) {
-       float [] res = new float[list.size()];
-       int a =0;
-       for (ColonneTableau tb : list) {
-           res[a] = tb.getValue();
-           a++;
-       }
-       Log.w("size  = ", res.length+"");
-      return res;
+    private float[] toFloat(List<ColonneTableau> list) {
+        float[] res = new float[list.size()];
+        int a = 0;
+        for (ColonneTableau tb : list) {
+            res[a] = tb.getValue();
+            a++;
+        }
+        return res;
     }
 
-    public static final Parcelable.Creator<TableauV2> CREATOR
-            = new Parcelable.Creator<TableauV2>() {
-        public TableauV2 createFromParcel(Parcel in) {
-            return new TableauV2(in);
-        }
-
-        public TableauV2[] newArray(int size) {
-            return new TableauV2[size];
-        }
-    };
-
-    private TableauV2(Parcel in) {
-        min = in.readFloat();
-        max = in.readFloat();
-        pivot = in.readFloat();
-        position_pivot = in.readString();
-        position_v_entrante = in.readString();
-        position_v_sortante = in.readString();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            isLast = in.readBoolean();
-        }else{
-            isLast = in.readByte() != 0;
-        }
-        pivotColonnes = in.readArrayList(TableauV2.class.getClassLoader());
-
-    }
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.position_pivot);
-        dest.writeString(this.position_v_entrante);
-        dest.writeString(this.position_v_sortante);
-        dest.writeFloat(this.min);
-        dest.writeFloat(this.max);
-        dest.writeFloat(this.pivot);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            dest.writeBoolean(this.isLast);
-        }else{
-            dest.writeByte((byte) (this.isLast ? 1 : 0));
-        }
-        dest.writeList(this.pivotColonnes);
+    public boolean isPValue(String value) {
+        String pList = "p1,p2,p3";
+        return pList.contains(value);
     }
 }
