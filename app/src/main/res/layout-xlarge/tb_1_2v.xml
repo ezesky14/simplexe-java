@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_drawer_layout"
     android:fitsSystemWindows="@bool/fitsSystemWindows"
-    tools:context=".Resultat3v_Tableau">
+    tools:context=".Resultat3vTableau">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -62,58 +62,19 @@
                 android:id="@+id/tableau1"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Tableau1"
+                android:text="Precedent tableau"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="120dp"
-                android:onClick="next"/>
+                android:onClick="previous" />
 
             <Button
-                android:id="@+id/tableau2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Tableau 2"
+                android:text="Prochain tableau"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:onClick="tb2_Click"
+                android:onClick="next"
                 android:layout_toRightOf="@+id/tableau1"/>
-
-            <Button
-                android:id="@+id/tableau3"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Tableau 3"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="tb3_Click"
-                android:layout_toRightOf="@+id/tableau2"
-                />
-
-            <Button
-                android:id="@+id/tableau4"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Tableau 4"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="tb4_Click"
-                android:layout_toRightOf="@+id/tableau3"/>
-
-
-            <Button
-                android:id="@+id/interpretation"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Solution optimale"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="interpretation_Click"
-                android:layout_toRightOf="@+id/tableau4"/>
-
-
-
-
-
-
 
             //1ere ligne : les libellés du tableau
             <TextView
@@ -125,7 +86,6 @@
                 android:background="@drawable/vbd"
 
                 />
-
 
             <TextView
                 android:id="@+id/lab_x1"
@@ -149,12 +109,7 @@
                 android:background="@color/md_orange_500_50"
                 android:text="x2"
                 android:gravity="center"
-
                 />
-
-
-
-
 
             <TextView
                 android:id="@+id/lab_p1"
@@ -191,7 +146,6 @@
                 android:gravity="center"
                 />
 
-
             <TextView
                 android:id="@+id/lab_b"
                 android:layout_marginTop="70dp"
@@ -205,7 +159,6 @@
                 />
 
             <TextView
-                android:id="@+id/lab_r"
                 android:layout_marginTop="70dp"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
@@ -214,8 +167,6 @@
                 android:background="@color/md_orange_500_50"
                 android:text="R"
                 android:gravity="center"/>
-
-
 
 
             //2e ligne : les champs affichant les valeurs
@@ -257,9 +208,6 @@
                 />
 
 
-
-
-
             <TextView
                 android:id="@+id/p1e1"
                 android:layout_below="@+id/img1"
@@ -271,7 +219,6 @@
                 android:background="@color/md_orange_500_50"
                 android:gravity="center"
                 />
-
 
             <TextView
                 android:id="@+id/p2e1"
@@ -359,10 +306,6 @@
                 android:gravity="center"
                 />
 
-
-
-
-
             <TextView
                 android:id="@+id/p1e2"
                 android:layout_below="@+id/p1e1"
@@ -374,7 +317,6 @@
                 android:background="@color/md_orange_500_50"
                 android:gravity="center"
                 />
-
 
             <TextView
                 android:id="@+id/p2e2"
@@ -619,7 +561,6 @@
                 />
 
             <TextView
-                android:id="@+id/rz"
                 android:layout_below="@+id/re3"
                 android:layout_toRightOf="@+id/bz"
                 android:layout_marginTop="10dp"
@@ -687,7 +628,6 @@
 
             <RelativeLayout
                 android:layout_marginTop="10dp"
-                android:id="@+id/layout_2"
                 android:layout_below="@+id/layout_1"
                 android:layout_width="700dp"
                 android:layout_height="wrap_content"

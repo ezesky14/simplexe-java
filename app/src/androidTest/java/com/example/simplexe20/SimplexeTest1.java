@@ -1,20 +1,18 @@
 package com.example.simplexe20;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
+
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -62,7 +60,6 @@ public class SimplexeTest1 {
         onView(withId(R.id.txt_be3))
                 .perform(typeText("600"), closeSoftKeyboard());
 
-
         onView(withId(R.id.txt_zx1))
                 .perform(typeText("350"), closeSoftKeyboard());
         onView(withId(R.id.txt_zx2))
@@ -70,12 +67,7 @@ public class SimplexeTest1 {
         onView(withId(R.id.txt_zx3))
                 .perform(typeText("300"), closeSoftKeyboard());
 
-
-
-
         onView(withText("Proceder au calcul")) .perform(scrollTo()).perform(click());
-
-        // Check that the text was changed.
 
     }
 

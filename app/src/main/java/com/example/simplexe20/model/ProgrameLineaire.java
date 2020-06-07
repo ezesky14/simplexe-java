@@ -7,15 +7,6 @@ import java.util.List;
 
 public class ProgrameLineaire {
     private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     private String zEquation;
     private float[] zEquationValues;
     private String equation1;
@@ -28,14 +19,35 @@ public class ProgrameLineaire {
     private List<Float> allEquationValues = new ArrayList<>();
     private List<Float> equationValuesWithoutPValues = new ArrayList<>();
     private List<ColonneTableau> colList = new ArrayList<>();
-    int nb_tableau = 0;
+    private int nbTableau = 0;
+    private int roundNumber = -1;
 
-    public int getNb_tableau() {
-        return nb_tableau;
+    public ProgrameLineaire(SimplexeType type, int roundNumber) {
+        this.roundNumber = roundNumber;
+        this.type = type;
     }
 
-    public void setNb_tableau(int nb_tableau) {
-        this.nb_tableau = nb_tableau;
+    public ProgrameLineaire(SimplexeType type) {
+        this.type = type;
+    }
+
+    public ProgrameLineaire() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getNbTableau() {
+        return nbTableau;
+    }
+
+    public void setNbTableau(int nbTableau) {
+        this.nbTableau = nbTableau;
     }
 
     public List<ColonneTableau> getColList() {
@@ -46,26 +58,35 @@ public class ProgrameLineaire {
         this.colList = colList;
     }
 
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
 
     public void setColList() {
+        Log.i("equationVWithoutPValues", String.valueOf(equationValuesWithoutPValues.size()));
+        Log.i("equationPValues", String.valueOf(getAllEquationValues().size()));
         List<ColonneTableau> list = new ArrayList<>();
-        String[] vdbList = {"e1","e2","e3","Z"};
-        String[] vhbList = {"x1","x2","x3","B"};
+        String[] vdbList = {"e1", "e2", "e3", "Z"};
+        String[] vhbList = {"x1", "x2", "x3", "B"};
+
+        if (type == SimplexeType.MAXI_DEUX_VARIABLES) {
+            vhbList = new String[]{"x1", "x2", "B"};
+        }
+
         int vdbPos = 0;
-        int vhbPos = 0;
+        int vhbPos;
         int dataIndex = 0;
         for (String vdb : vdbList) {
             vhbPos = 0;
             for (String vhb : vhbList) {
-                if (dataIndex<15){
-                    Log.i("getColumnsOfTable", dataIndex+"");
+                if (!(vhb.equals("B") && vdb.equals("Z"))) {
                     int id = dataIndex;
-
                     KeyVal vhbKeyVal = new KeyVal(vhbPos, vhb);
                     KeyVal vdbKeyVal = new KeyVal(vdbPos, vdb);
-
-                    Log.i("getColumnsOfTable vhb", vhb+"");
-                    Log.i("getColumnsOfTable vdb", vdb+"");
                     ColonneTableau col = SimplexeUtils.addColumnWithData(vhbKeyVal, vdbKeyVal, id, equationValuesWithoutPValues.get(dataIndex));
                     list.add(col);
                     vhbPos++;
@@ -74,9 +95,8 @@ public class ProgrameLineaire {
             }
             vdbPos++;
         }
-
+        this.colList = list;
     }
-
 
 
     public SimplexeType getType() {
@@ -88,9 +108,8 @@ public class ProgrameLineaire {
     }
 
     public void setType(String type) {
-
+        this.type = SimplexeType.valueOf(type);
     }
-
 
     public List<Float> getAllEquationValues() {
         return allEquationValues;
@@ -138,14 +157,6 @@ public class ProgrameLineaire {
         this.equation3Values = equation3Values;
     }
 
-    public ProgrameLineaire(SimplexeType type) {
-        this.type = type;
-    }
-
-    public ProgrameLineaire() {
-    }
-
-
     public String getzEquation() {
         return zEquation;
     }
@@ -158,13 +169,9 @@ public class ProgrameLineaire {
         this.equationValuesWithoutPValues = equationValuesWithoutPValues;
     }
 
-    public void pushEquationValuesWithoutPValues(float[] values) {
-        for (float v : values) {
-            equationValuesWithoutPValues.add(v);
-        }
+    public void pushEquationValuesWithoutPValues(ArrayList<Float> values) {
+        equationValuesWithoutPValues.addAll(values);
     }
-
-
 
     private String getSign() {
         //Definir les signes si >= ou <=
@@ -173,17 +180,15 @@ public class ProgrameLineaire {
         } else {
             return "<=";
         }
-
     }
 
     private String getInconnuVariable(String number) {
         //Definir les signes si >= ou <=
         if (type == SimplexeType.MAXI_TROIS_VARIABLES || type == SimplexeType.MAXI_DEUX_VARIABLES) {
-            return "x"+number;
+            return "x" + number;
         } else {
-            return "y"+number;
+            return "y" + number;
         }
-
     }
 
     private float[] getVals(String[] inputs, float[] others) {
@@ -196,58 +201,110 @@ public class ProgrameLineaire {
         for (float v : others) {
             outputs[a] = v;
         }
-
         return outputs;
     }
 
     public String getEquation1() {
         return equation1;
     }
+
     public String getEquation2() {
         return equation2;
     }
+
     public String getEquation3() {
         return equation3;
     }
-    public void setEquation1(float x1, float x2, float x3, float b) {
-        float[] r = {x1, x2, x3, 1, 0, 0, b, 0};
-        float[] r2 = {x1, x2, x3, b};
-        pushEquationValues(r);
-        pushEquationValuesWithoutPValues(r2);
-        equation1Values = r;
-        this.equation1 = x1 + getInconnuVariable("1") + " + "+x2 + getInconnuVariable("2") + " + "+x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
+
+    private float[] getPValues(int vdbIndex) {
+        float[] values = new float[3];
+        for (int a = 0; a < 3; a++) {
+            if (a == vdbIndex) {
+                values[a] = 1;
+            } else {
+                values[a] = 0;
+            }
+        }
+
+        return values;
     }
 
+    private float[] addOtherValues(ArrayList<Float> vhbValues, float[] pValues, float b) {
+        // float[] r = {x1, x2, x3, 0, 0, 0, 0, 0};
+        float[] init = new float[getColumnsNumberPerLine()];
+        int a = 0;
+        for (float v : vhbValues) {
+            init[a] = v;
+            a++;
+        }
+        for (float v : pValues) {
+            init[a] = v;
+            a++;
+        }
+
+        //Pour Z
+        if (b == -1) {
+            init[a] = 0;
+            init[a + 1] = 0;
+        } else {
+            init[a] = b;
+        }
+
+        return init;
+    }
+
+    private ArrayList<Float> getVDBValues(float x1, float x2, float x3) {
+        ArrayList<Float> v = new ArrayList<>();
+        v.add(x1);
+        v.add(x2);
+        if (type == SimplexeType.MAXI_TROIS_VARIABLES) {
+            v.add(x3);
+        }
+        return v;
+    }
+
+    public void setEquation1(float x1, float x2, float x3, float b) {
+        ArrayList<Float> init = getVDBValues(x1, x2, x3);
+        float[] pValues = getPValues(0);
+        float[] r = addOtherValues(init, pValues, b);
+        init.add(b);
+        pushEquationValues(r);
+        pushEquationValuesWithoutPValues(init);
+        equation1Values = r;
+        //this.equation1 = x1 + getInconnuVariable("1") + " + " + x2 + getInconnuVariable("2") + " + " + x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
+    }
 
     public void setEquation2(float x1, float x2, float x3, float b) {
-        float[] r = {x1, x2, x3, 0, 1, 0, b, 0};
-        float[] r2 = {x1, x2, x3, b};
+        ArrayList<Float> init = getVDBValues(x1, x2, x3);
+        float[] pValues = getPValues(1);
+        float[] r = addOtherValues(init, pValues, b);
+        init.add(b);
         pushEquationValues(r);
-        pushEquationValuesWithoutPValues(r2);
+        pushEquationValuesWithoutPValues(init);
         equation2Values = r;
-        this.equation2  = x1 + getInconnuVariable("1") + " + "+x2 + getInconnuVariable("2") + " + "+x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
+        //this.equation2 = x1 + getInconnuVariable("1") + " + " + x2 + getInconnuVariable("2") + " + " + x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
     }
 
-
-
     public void setEquation3(float x1, float x2, float x3, float b) {
-        float[] r = {x1, x2, x3, 0, 0, 1, b, 0};
-        float[] r2 = {x1, x2, x3, b};
-        equation3Values = r;
+        ArrayList<Float> init = getVDBValues(x1, x2, x3);
+        float[] pValues = getPValues(2);
+        float[] r = addOtherValues(init, pValues, b);
+        init.add(b);
         pushEquationValues(r);
-        pushEquationValuesWithoutPValues(r2);
-        this.equation3  = x1 + getInconnuVariable("1") + " + "+x2 + getInconnuVariable("2") + " + "+x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
+        pushEquationValuesWithoutPValues(init);
+        equation3Values = r;
+        //this.equation3 = x1 + getInconnuVariable("1") + " + " + x2 + getInconnuVariable("2") + " + " + x3 + getInconnuVariable("3") + " " + getSign() + " " + b;
     }
 
     public void setzEquation(float x1, float x2, float x3) {
-        float[] r = {x1, x2, x3, 0, 0, 0, 0, 0};
-        float[] r2 = {x1, x2, x3};
+        ArrayList<Float> init = getVDBValues(x1, x2, x3);
+        float[] pValues = getPValues(-1);
+        float[] r = addOtherValues(init, pValues, -1);
         pushEquationValues(r);
-        pushEquationValuesWithoutPValues(r2);
+        pushEquationValuesWithoutPValues(init);
         zEquationValues = r;
-        this.zEquation =  x1 + getInconnuVariable("1") + " + "+x2 + getInconnuVariable("2") + " + "+x3 + getInconnuVariable("3");
+        //this.zEquation = x1 + getInconnuVariable("1") + " + " + x2 + getInconnuVariable("2") + " + " + x3 + getInconnuVariable("3");
     }
-
 
     public int getColumnsNumberPerLine() {
         int res = 0;

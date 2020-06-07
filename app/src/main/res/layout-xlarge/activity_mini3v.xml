@@ -138,7 +138,6 @@
                 android:layout_toRightOf="@+id/txt_zy3"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/y3_"
                 android:layout_width="@dimen/longueur_label"
                 android:layout_height="@dimen/largeur_label"
                 android:gravity="center"

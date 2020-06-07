@@ -1,66 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.simplexe20">
 
     <dist:module dist:instant="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
-
-    <activity
-        android:name=".MainActivity"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:screenOrientation="landscape"
-        android:label="@string/app_name">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <activity
-        android:name=".Resultat3v_Tableau"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:screenOrientation="landscape"
-        android:label="@string/title_activity_resultat3v__tableau"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".Resultat2v_Tableau"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:screenOrientation="landscape"
-        android:label="resultat"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".Maxi2vActivity"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:screenOrientation="landscape"
-        android:label="@string/title_activity_maxi2v"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".Mini3vActivity"
-        android:configChanges="orientation|keyboardHidden|screenSize"
-        android:screenOrientation="landscape"
-        android:label="@string/title_activity_mini3v"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".RappelActivity"
-        android:label="@string/title_activity_rappel"
-        android:theme="@style/AppTheme" />
-    <activity
-        android:name=".AboutActivity"
-        android:label="@string/title_activity_about"
-        android:theme="@style/AppTheme" />
-    <activity android:name=".AffichProgActivity" />
-    <activity android:name=".Affich_FormStandActivity" />
-    <activity
-        android:name=".SettingsActivity"
-        android:label="@string/title_activity_settings" />
-    <activity android:name=".MiniDrawerActivity"/>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Resultat3vTableau"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_resultat3v__tableau"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Resultat2vTableau"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="resultat"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Maxi2vActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_maxi2v"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Mini3vActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_mini3v"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RappelActivity"
+            android:label="@string/title_activity_rappel"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AffichProgActivity" />
+        <activity
+            android:name=".AffichFormStandActivity"
+            android:screenOrientation="fullSensor" />
     </application>
+
 </manifest>

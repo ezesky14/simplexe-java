@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/calculs_header">
+        <ListPreference
+            app:defaultValue="none"
+            app:entries="@array/number_entries"
+            app:entryValues="@array/number_values"
+            app:key="roundNumber"
+            app:title="@string/round_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

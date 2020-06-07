@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_drawer_layout"
     android:fitsSystemWindows="@bool/fitsSystemWindows"
-    tools:context=".Resultat3v_Tableau">
+    tools:context=".Resultat2vTableau">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -58,62 +58,24 @@
             android:layout_height="wrap_content">
 
             //Les boutons pour les recherches
+
             <Button
                 android:id="@+id/tableau1"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Tableau1"
+                android:onClick="previous"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="120dp"
-                android:onClick="next"/>
+                android:text="Precedent tableau" />
 
             <Button
-                android:id="@+id/tableau2"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Tableau 2"
+                android:onClick="next"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:onClick="tb2_Click"
+                android:text="Prochain tableau"
                 android:layout_toRightOf="@+id/tableau1"/>
-
-            <Button
-                android:id="@+id/tableau3"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Tableau 3"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="tb3_Click"
-                android:layout_toRightOf="@+id/tableau2"
-                />
-
-            <Button
-                android:id="@+id/tableau4"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Tableau 4"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="tb4_Click"
-                android:layout_toRightOf="@+id/tableau3"/>
-
-
-            <Button
-                android:id="@+id/interpretation"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Solution optimale"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="interpretation_Click"
-                android:layout_toRightOf="@+id/tableau4"/>
-
-
-
-
-
-
 
             //1ere ligne : les libellés du tableau
             <TextView
@@ -205,7 +167,6 @@
                 />
 
             <TextView
-                android:id="@+id/lab_r"
                 android:layout_marginTop="70dp"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
@@ -619,7 +580,6 @@
                 />
 
             <TextView
-                android:id="@+id/rz"
                 android:layout_below="@+id/re3"
                 android:layout_toRightOf="@+id/bz"
                 android:layout_marginTop="10dp"
@@ -687,7 +647,6 @@
 
             <RelativeLayout
                 android:layout_marginTop="10dp"
-                android:id="@+id/layout_2"
                 android:layout_below="@+id/layout_1"
                 android:layout_width="700dp"
                 android:layout_height="wrap_content"
